@@ -1,0 +1,5 @@
+Django
+python-dotenv
+groq
+markdown
+nh3

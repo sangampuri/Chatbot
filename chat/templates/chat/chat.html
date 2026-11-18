@@ -1,0 +1,88 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Chat Assistant</title>
+    <link rel="stylesheet" href="{% static 'chat/style.css' %}">
+</head>
+
+<body>
+
+    <div class="chat-container">
+
+        <!-- Header -->
+        <div class="chat-header">
+            <h1>हरी बाहादुर</h1>
+            <p>Your personal AI assistant</p>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+
+            <h2>Chat History</h2>
+
+            {% for chat in chats %}
+
+                <!-- User Message -->
+                <div class="user-message">
+                    <div class="message-label">You</div>
+                    {{ chat.user_message }}
+                </div>
+
+                <!-- AI Response -->
+                <div class="ai-message">
+                    <div class="message-label">हरी बाहादुर</div>
+
+                    <div class="ai-response">
+                        {{ chat.ai_response|safe }}
+                    </div>
+                </div>
+
+            {% empty %}
+
+                <p>No messages yet.</p>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" id="send-button">
+                    Send
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+  <script>
+    const chatForm = document.querySelector("form");
+    const sendButton = document.getElementById("send-button");
+
+    // Loading indicator
+    chatForm.addEventListener("submit", function() {
+        sendButton.disabled = true;
+        sendButton.innerText = "Thinking...";
+    });
+
+    // Scroll to the latest message when the page loads
+    window.addEventListener("load", function() {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth"
+        });
+    });
+</script>
+
+</body>
+</html>
